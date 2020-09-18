@@ -1,0 +1,21 @@
+version: "3"   #Versão do Docker compose
+services:           #docker pull node
+    nodejs-container:
+        build: 
+            context: .
+            dockerfile: dockerfile-nodejs.dockerfile
+        links:
+            - mongodb-container
+        ports:
+            - "3004:3004"
+        depends_on:
+            - mongodb-container
+        restart: on-failure
+    mongodb-container: #Docker pull Mongo
+        build: 
+            context: .
+            dockerfile: dockerfile-mongodb.dockerfile
+        volumes: 
+            - mongodb-data:/Users/felipeassaf/Documents/Pessoal/Fase6/Docker/data
+volumes: 
+    mongodb-data: {}   
