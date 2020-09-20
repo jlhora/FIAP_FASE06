@@ -9,5 +9,5 @@ Dentro do diretório **_./ifood_** é possivel encontra o arquivo '**_dockerfile
 ## TIME - Grupo A
 
 - João da Hora
-- Felipe Asaaf
+- Felipe Assaf
 - Adriano Sodré
