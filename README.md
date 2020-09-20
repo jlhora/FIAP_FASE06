@@ -10,4 +10,4 @@ Dentro do diretório **_./ifood_** é possivel encontra o arquivo '**_dockerfile
 
 - João da Hora
 - Felipe Asaaf
-- André Sodré
+- Adriano Sodré
