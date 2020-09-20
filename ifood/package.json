@@ -36,7 +36,11 @@
   "repository": {
     "type": "git"
   },
-  "author": ["João da Hora <joaao_luiz@hotmail.com>", "Felipe Asaaf", "Adriano Sodré"],
+  "author": [
+    "João da Hora <joaao_luiz@hotmail.com>",
+    "Felipe Asaaf",
+    "Adriano Sodré"
+  ],
   "license": "",
   "files": [
     "README.md",
@@ -51,6 +55,7 @@
     "@loopback/rest": "^7.0.1",
     "@loopback/rest-explorer": "^3.0.1",
     "@loopback/service-proxy": "^3.0.1",
+    "loopback-connector-mongodb": "^5.4.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
