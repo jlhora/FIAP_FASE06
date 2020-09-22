@@ -12,12 +12,15 @@ WORKDIR /home/node/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY --chown=node package*.json ./
+#COPY --chown=node ifood/package*.json /home/node/app/
+
+COPY --chown=node ifood/*.json /home/node/app/
 
 RUN npm install
 
+RUN ls /home/node/app/
 # Bundle app source code
-COPY --chown=node . .
+COPY --chown=node ifood/. .
 
 RUN npm run build
 

@@ -3,11 +3,11 @@ services:           #docker pull node
     nodejs-container:
         build: 
             context: .
-            dockerfile: dockerfile-nodejs.dockerfile
+            dockerfile: ./ifood/Dockerfile
         links:
             - mongodb-container
         ports:
-            - "3004:3004"
+            - "3000:3000"
         depends_on:
             - mongodb-container
         restart: on-failure
@@ -16,6 +16,6 @@ services:           #docker pull node
             context: .
             dockerfile: dockerfile-mongodb.dockerfile
         volumes: 
-            - mongodb-data:/Users/felipeassaf/Documents/Pessoal/Fase6/Docker/data
+            - mongodb-data:/Users/felipeassaf/Documents/git/FIAP_FASE06/Fase6/Docker/data
 volumes: 
     mongodb-data: {}   
