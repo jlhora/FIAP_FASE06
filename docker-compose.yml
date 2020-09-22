@@ -1,6 +1,7 @@
 version: "3"   #Versão do Docker compose
 services:           #docker pull node
     nodejs-container:
+        command:  git pull 
         build: 
             context: .
             dockerfile: ./ifood/Dockerfile
