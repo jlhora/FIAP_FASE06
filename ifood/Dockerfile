@@ -1,5 +1,6 @@
 # Check out https://hub.docker.com/_/node to select a new base image
-FROM node:10-slim
+#Alterado para a versao mais nova para ter o Git - Assaf
+FROM node:10   
 
 # Set to a non-root built-in user `node`
 USER node
@@ -14,13 +15,17 @@ WORKDIR /home/node/app
 # where available (npm@5+)
 #COPY --chown=node ifood/package*.json /home/node/app/
 
-COPY --chown=node ifood/*.json /home/node/app/
+#COPY --chown=node ifood/*.json /home/node/app/
+RUN git clone https://github.com/jlhora/FIAP_FASE06.git
+
+#Ajustando o pwd para buildar - Assaf
+WORKDIR /home/node/app/FIAP_FASE06/ifood    
+#RUN ls /home/node/app/FIAP_FASE06/ifood
+
 
 RUN npm install
-
-RUN ls /home/node/app/
 # Bundle app source code
-COPY --chown=node ifood/. .
+#COPY --chown=node ifood/. .
 
 RUN npm run build
 
