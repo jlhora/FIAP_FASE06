@@ -1,4 +1,3 @@
-// ---------- ADD IMPORTS -------------
 import {AuthenticationComponent} from '@loopback/authentication';
 import {
   JWTAuthenticationComponent,
@@ -17,11 +16,9 @@ import path from 'path';
 import {DefaultDataSource} from './datasources';
 import {MySequence} from './sequence';
 
-// ------------------------------------
-
 export {ApplicationConfig};
 
-export class App extends BootMixin(
+export class Main extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
@@ -50,13 +47,10 @@ export class App extends BootMixin(
       },
     };
 
-    // ------ ADD SNIPPET AT THE BOTTOM ---------
-    // Mount authentication system
     this.component(AuthenticationComponent);
     // Mount jwt component
     this.component(JWTAuthenticationComponent);
     // Bind datasource
     this.dataSource(DefaultDataSource, UserServiceBindings.DATASOURCE_NAME);
-    // ------------- END OF SNIPPET -------------
   }
 }

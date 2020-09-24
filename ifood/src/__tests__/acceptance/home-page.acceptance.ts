@@ -1,9 +1,9 @@
 import {Client} from '@loopback/testlab';
-import {App} from '../..';
+import {Main} from '../..';
 import {setupApplication} from './test-helper';
 
 describe('HomePage', () => {
-  let app: App;
+  let app: Main;
   let client: Client;
 
   before('setupApplication', async () => {
@@ -23,7 +23,7 @@ describe('HomePage', () => {
 
   it('exposes self-hosted explorer', async () => {
     await client
-      .get('/explorer/')
+      .get('/documentation/')
       .expect(200)
       .expect('Content-Type', /text\/html/)
       .expect(/<title>LoopBack API Explorer/);
