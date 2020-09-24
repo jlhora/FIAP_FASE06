@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Cupom} from '../models';
 import {CupomRepository} from '../repositories';
 
+@authenticate('jwt')
 export class CupomController {
   constructor(
     @repository(CupomRepository)
-    public cupomRepository : CupomRepository,
+    public cupomRepository: CupomRepository,
   ) {}
 
   @post('/cupoms', {
@@ -39,12 +41,11 @@ export class CupomController {
         'application/json': {
           schema: getModelSchemaRef(Cupom, {
             title: 'NewCupom',
-            exclude: ['id'],
           }),
         },
       },
     })
-    cupom: Omit<Cupom, 'id'>,
+    cupom: Cupom,
   ): Promise<Cupom> {
     return this.cupomRepository.create(cupom);
   }
@@ -57,9 +58,7 @@ export class CupomController {
       },
     },
   })
-  async count(
-    @param.where(Cupom) where?: Where<Cupom>,
-  ): Promise<Count> {
+  async count(@param.where(Cupom) where?: Where<Cupom>): Promise<Count> {
     return this.cupomRepository.count(where);
   }
 
@@ -78,9 +77,7 @@ export class CupomController {
       },
     },
   })
-  async find(
-    @param.filter(Cupom) filter?: Filter<Cupom>,
-  ): Promise<Cupom[]> {
+  async find(@param.filter(Cupom) filter?: Filter<Cupom>): Promise<Cupom[]> {
     return this.cupomRepository.find(filter);
   }
 
@@ -119,8 +116,9 @@ export class CupomController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
-    @param.filter(Cupom, {exclude: 'where'}) filter?: FilterExcludingWhere<Cupom>
+    @param.path.string('id') id: string,
+    @param.filter(Cupom, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Cupom>,
   ): Promise<Cupom> {
     return this.cupomRepository.findById(id, filter);
   }
@@ -133,7 +131,7 @@ export class CupomController {
     },
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -154,7 +152,7 @@ export class CupomController {
     },
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() cupom: Cupom,
   ): Promise<void> {
     await this.cupomRepository.replaceById(id, cupom);
@@ -167,7 +165,7 @@ export class CupomController {
       },
     },
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.cupomRepository.deleteById(id);
   }
 }

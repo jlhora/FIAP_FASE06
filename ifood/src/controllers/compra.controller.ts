@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Compra} from '../models';
 import {CompraRepository} from '../repositories';
 
+@authenticate('jwt')
 export class CompraController {
   constructor(
     @repository(CompraRepository)
-    public compraRepository : CompraRepository,
+    public compraRepository: CompraRepository,
   ) {}
 
   @post('/compras', {
@@ -57,9 +59,7 @@ export class CompraController {
       },
     },
   })
-  async count(
-    @param.where(Compra) where?: Where<Compra>,
-  ): Promise<Count> {
+  async count(@param.where(Compra) where?: Where<Compra>): Promise<Count> {
     return this.compraRepository.count(where);
   }
 
@@ -78,9 +78,7 @@ export class CompraController {
       },
     },
   })
-  async find(
-    @param.filter(Compra) filter?: Filter<Compra>,
-  ): Promise<Compra[]> {
+  async find(@param.filter(Compra) filter?: Filter<Compra>): Promise<Compra[]> {
     return this.compraRepository.find(filter);
   }
 
@@ -120,7 +118,8 @@ export class CompraController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Compra, {exclude: 'where'}) filter?: FilterExcludingWhere<Compra>
+    @param.filter(Compra, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Compra>,
   ): Promise<Compra> {
     return this.compraRepository.findById(id, filter);
   }

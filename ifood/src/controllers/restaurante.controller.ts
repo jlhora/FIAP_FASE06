@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Restaurante} from '../models';
 import {RestauranteRepository} from '../repositories';
 
+@authenticate('jwt')
 export class RestauranteController {
   constructor(
     @repository(RestauranteRepository)
-    public restauranteRepository : RestauranteRepository,
+    public restauranteRepository: RestauranteRepository,
   ) {}
 
   @post('/restaurantes', {
@@ -120,7 +122,8 @@ export class RestauranteController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Restaurante, {exclude: 'where'}) filter?: FilterExcludingWhere<Restaurante>
+    @param.filter(Restaurante, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Restaurante>,
   ): Promise<Restaurante> {
     return this.restauranteRepository.findById(id, filter);
   }

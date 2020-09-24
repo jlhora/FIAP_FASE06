@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Produto} from '../models';
 import {ProdutoRepository} from '../repositories';
 
+@authenticate('jwt')
 export class ProdutoController {
   constructor(
     @repository(ProdutoRepository)
-    public produtoRepository : ProdutoRepository,
+    public produtoRepository: ProdutoRepository,
   ) {}
 
   @post('/produtos', {
@@ -57,9 +59,7 @@ export class ProdutoController {
       },
     },
   })
-  async count(
-    @param.where(Produto) where?: Where<Produto>,
-  ): Promise<Count> {
+  async count(@param.where(Produto) where?: Where<Produto>): Promise<Count> {
     return this.produtoRepository.count(where);
   }
 
@@ -120,7 +120,8 @@ export class ProdutoController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Produto, {exclude: 'where'}) filter?: FilterExcludingWhere<Produto>
+    @param.filter(Produto, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Produto>,
   ): Promise<Produto> {
     return this.produtoRepository.findById(id, filter);
   }

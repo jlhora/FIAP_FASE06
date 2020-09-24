@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,29 +8,34 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {RestauranteFuncionmento} from '../models';
 import {RestauranteFuncionmentoRepository} from '../repositories';
 
+@authenticate('jwt')
 export class RestauranteFuncionamentoController {
   constructor(
     @repository(RestauranteFuncionmentoRepository)
-    public restauranteFuncionmentoRepository : RestauranteFuncionmentoRepository,
+    public restauranteFuncionmentoRepository: RestauranteFuncionmentoRepository,
   ) {}
 
   @post('/restaurante-funcionmentos', {
     responses: {
       '200': {
         description: 'RestauranteFuncionmento model instance',
-        content: {'application/json': {schema: getModelSchemaRef(RestauranteFuncionmento)}},
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(RestauranteFuncionmento),
+          },
+        },
       },
     },
   })
@@ -46,7 +52,9 @@ export class RestauranteFuncionamentoController {
     })
     restauranteFuncionmento: Omit<RestauranteFuncionmento, 'id'>,
   ): Promise<RestauranteFuncionmento> {
-    return this.restauranteFuncionmentoRepository.create(restauranteFuncionmento);
+    return this.restauranteFuncionmentoRepository.create(
+      restauranteFuncionmento,
+    );
   }
 
   @get('/restaurante-funcionmentos/count', {
@@ -58,7 +66,8 @@ export class RestauranteFuncionamentoController {
     },
   })
   async count(
-    @param.where(RestauranteFuncionmento) where?: Where<RestauranteFuncionmento>,
+    @param.where(RestauranteFuncionmento)
+    where?: Where<RestauranteFuncionmento>,
   ): Promise<Count> {
     return this.restauranteFuncionmentoRepository.count(where);
   }
@@ -71,7 +80,9 @@ export class RestauranteFuncionamentoController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(RestauranteFuncionmento, {includeRelations: true}),
+              items: getModelSchemaRef(RestauranteFuncionmento, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -79,7 +90,8 @@ export class RestauranteFuncionamentoController {
     },
   })
   async find(
-    @param.filter(RestauranteFuncionmento) filter?: Filter<RestauranteFuncionmento>,
+    @param.filter(RestauranteFuncionmento)
+    filter?: Filter<RestauranteFuncionmento>,
   ): Promise<RestauranteFuncionmento[]> {
     return this.restauranteFuncionmentoRepository.find(filter);
   }
@@ -101,9 +113,13 @@ export class RestauranteFuncionamentoController {
       },
     })
     restauranteFuncionmento: RestauranteFuncionmento,
-    @param.where(RestauranteFuncionmento) where?: Where<RestauranteFuncionmento>,
+    @param.where(RestauranteFuncionmento)
+    where?: Where<RestauranteFuncionmento>,
   ): Promise<Count> {
-    return this.restauranteFuncionmentoRepository.updateAll(restauranteFuncionmento, where);
+    return this.restauranteFuncionmentoRepository.updateAll(
+      restauranteFuncionmento,
+      where,
+    );
   }
 
   @get('/restaurante-funcionmentos/{id}', {
@@ -112,7 +128,9 @@ export class RestauranteFuncionamentoController {
         description: 'RestauranteFuncionmento model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(RestauranteFuncionmento, {includeRelations: true}),
+            schema: getModelSchemaRef(RestauranteFuncionmento, {
+              includeRelations: true,
+            }),
           },
         },
       },
@@ -120,7 +138,8 @@ export class RestauranteFuncionamentoController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(RestauranteFuncionmento, {exclude: 'where'}) filter?: FilterExcludingWhere<RestauranteFuncionmento>
+    @param.filter(RestauranteFuncionmento, {exclude: 'where'})
+    filter?: FilterExcludingWhere<RestauranteFuncionmento>,
   ): Promise<RestauranteFuncionmento> {
     return this.restauranteFuncionmentoRepository.findById(id, filter);
   }
@@ -143,7 +162,10 @@ export class RestauranteFuncionamentoController {
     })
     restauranteFuncionmento: RestauranteFuncionmento,
   ): Promise<void> {
-    await this.restauranteFuncionmentoRepository.updateById(id, restauranteFuncionmento);
+    await this.restauranteFuncionmentoRepository.updateById(
+      id,
+      restauranteFuncionmento,
+    );
   }
 
   @put('/restaurante-funcionmentos/{id}', {
@@ -157,7 +179,10 @@ export class RestauranteFuncionamentoController {
     @param.path.number('id') id: number,
     @requestBody() restauranteFuncionmento: RestauranteFuncionmento,
   ): Promise<void> {
-    await this.restauranteFuncionmentoRepository.replaceById(id, restauranteFuncionmento);
+    await this.restauranteFuncionmentoRepository.replaceById(
+      id,
+      restauranteFuncionmento,
+    );
   }
 
   @del('/restaurante-funcionmentos/{id}', {
